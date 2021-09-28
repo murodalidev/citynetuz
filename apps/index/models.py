@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -31,6 +32,13 @@ class News(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def get_img_url(self):
+        if settings.DEBUG:
+            return f"{settings.LOCAL_BASE_URL}{self.image.url}"
+        else:
+            return f"{settings.PROD_BASE_URL}{self.image.url}"
+
 
 class Partner(models.Model):
 
@@ -47,6 +55,13 @@ class Partner(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def get_img_url(self):
+        if settings.DEBUG:
+            return f"{settings.LOCAL_BASE_URL}{self.image.url}"
+        else:
+            return f"{settings.PROD_BASE_URL}{self.image.url}"
+
 
 class Object(models.Model):
 
@@ -61,5 +76,12 @@ class Object(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def get_img_url(self):
+        if settings.DEBUG:
+            return f"{settings.LOCAL_BASE_URL}{self.image.url}"
+        else:
+            return f"{settings.PROD_BASE_URL}{self.image.url}"
 
 

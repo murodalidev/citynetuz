@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.index.models import TRENDS
+from citynet import settings
 
 
 class Category(models.Model):
@@ -56,6 +57,13 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f'image of {self.product.title}'
+
+    @property
+    def get_img_url(self):
+        if settings.DEBUG:
+            return f"{settings.LOCAL_BASE_URL}{self.image.url}"
+        else:
+            return f"{settings.PROD_BASE_URL}{self.image.url}"
 
 
 class Request(models.Model):
