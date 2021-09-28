@@ -46,21 +46,27 @@ class CableTechSerializer(serializers.ModelSerializer):
         fields = ('id', 'title')
 
 
-class StreetAreaSerializer(serializers.ModelSerializer):
-    district_name = serializers.CharField(source='district.title', read_only=True)
-    tech_name = serializers.CharField(source='tech.title', read_only=True)
-
-    class Meta:
-        model = StreetArea
-        fields = ('id', 'district', 'district_name', 'title', 'tech', 'tech_name')
-
-
 class HomeAreaSerializer(serializers.ModelSerializer):
     street_name = serializers.CharField(source='street.title', read_only=True)
 
     class Meta:
         model = HomeArea
         fields = ('id', 'street', 'street_name', 'title')
+
+
+class StreetAreaSerializer(serializers.ModelSerializer):
+    district_name = serializers.CharField(source='district.title', read_only=True)
+    tech_name = serializers.CharField(source='tech.title', read_only=True)
+    flats = serializers.SerializerMethodField()
+
+    def get_flats(self, obj):
+        qs = HomeArea.objects.filter(street=obj, is_active=True)
+        sz = HomeAreaSerializer(instance=qs, many=True)
+        return sz.data
+
+    class Meta:
+        model = StreetArea
+        fields = ('id', 'district', 'district_name', 'title', 'flats', 'tech', 'tech_name')
 
 
 class RequestSerializer(serializers.ModelSerializer):
@@ -74,10 +80,11 @@ class ChannelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Channel
-        fields = ('id', 'image', 'title')
+        fields = ('id', 'get_img_url', 'title')
 
 
 class TypeChannelSerializer(serializers.ModelSerializer):
+    # channels = ChannelSerializer(read_only=True, many=True)
     channels = serializers.SerializerMethodField()
 
     def get_channels(self, obj):

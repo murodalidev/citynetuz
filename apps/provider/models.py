@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 
 class Notification(models.Model):
@@ -117,7 +118,7 @@ class HomeArea(models.Model):
         verbose_name = 'Home Area'
         verbose_name_plural = '4.4. Home Areas'
 
-    street = models.ForeignKey(StreetArea, on_delete=models.CASCADE, verbose_name=_('Street'))
+    street = models.ForeignKey(StreetArea, on_delete=models.CASCADE, verbose_name=_('Street'), related_name='flats')
     title = models.CharField(max_length=50, verbose_name=_('Home name'))
     is_active = models.BooleanField(default=True, verbose_name=_('Is active'))
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date created'))
@@ -176,3 +177,10 @@ class Channel(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def get_img_url(self):
+        if settings.DEBUG:
+            return f"{settings.LOCAL_BASE_URL}{self.image.url}"
+        else:
+            return f"{settings.PROD_BASE_URL}{self.image.url}"

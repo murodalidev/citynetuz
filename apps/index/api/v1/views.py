@@ -15,6 +15,11 @@ class NewsLatestListView(generics.ListAPIView):
     serializer_class = NewsSerializer
 
 
+class NewsDetailView(generics.RetrieveAPIView):
+    queryset = News.objects.filter(is_active=True)
+    serializer_class = NewsSerializer
+
+
 class PartnerListView(generics.ListAPIView):
     queryset = Partner.objects.filter(is_active=True)[::-1]
     serializer_class = PartnerSerializer

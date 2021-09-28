@@ -30,6 +30,11 @@ class ProductListView(generics.ListAPIView):
         return qs
 
 
+class ProductDetailView(generics.RetrieveAPIView):
+    queryset = Product.objects.filter(is_active=True)
+    serializer_class = ProductSerializer
+
+
 class NewProductListView(generics.ListAPIView):
     queryset = Product.objects.filter(is_active=True).order_by('-date_created')[:10]
     serializer_class = ProductSerializer

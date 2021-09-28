@@ -55,15 +55,15 @@ INSTALLED_APPS = [
     'apps.provider',
 ]
 
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header',
-        }
-    }
-}
+# SWAGGER_SETTINGS = {
+#     'SECURITY_DEFINITIONS': {
+#         'Bearer': {
+#             'type': 'apiKey',
+#             'name': 'Authorization',
+#             'in': 'header',
+#         }
+#     }
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -71,6 +71,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
+LOCAL_BASE_URL = 'http://127.0.0.1:8000'
+PROD_BASE_URL = 'http://w4.citynet.uz:4440'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -153,7 +155,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Asia/Tashkent'
 
@@ -172,12 +174,14 @@ LANGUAGES = (
     ('en', 'en'),
 )
 
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
-MODELTRANSLATION_LANGUAGES = ('en', 'ru', 'uz')
-MODELTRANSLATION_FALLBACK_LANGUAGES = ('en', 'ru', 'uz')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+MODELTRANSLATION_LANGUAGES = ('ru', 'uz', 'en')
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('ru', 'uz', 'en')
 
 MODELTRANSLATION_TRANSLATION_FILES = (
     'apps.index.translation',
+    'apps.provider.translation',
+    'apps.device.translation',
 )
 
 
