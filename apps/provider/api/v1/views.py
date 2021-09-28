@@ -32,7 +32,7 @@ from .serializers import (
 
 
 class NotificationListView(generics.ListAPIView):
-    queryset = Notification.objects.filter(is_active=True)[::-1][:1]
+    queryset = Notification.objects.filter(is_active=True).order_by('-id')[:1]
     serializer_class = NotificationSerializer
 
 
@@ -47,7 +47,7 @@ class TelephonyTariffListView(generics.ListAPIView):
 
 
 class PopularServiceListView(generics.ListAPIView):
-    queryset = News.objects.filter(is_active=True, trend__lte=2)[::-1]
+    queryset = News.objects.filter(is_active=True, trend__lte=2).order_by('-id')
     serializer_class = NewsSerializer
 
 

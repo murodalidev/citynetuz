@@ -46,12 +46,12 @@ class PopularProductListView(generics.ListAPIView):
 
 
 class LastCameraListView(generics.ListAPIView):
-    queryset = Product.objects.filter(is_active=True, trend=3)[::-1][:1]
+    queryset = Product.objects.filter(is_active=True, trend=3).order_by('-id')[:1]
     serializer_class = ProductSerializer
 
 
 class LastPhoneListView(generics.ListAPIView):
-    queryset = Product.objects.filter(is_active=True, trend=1)[::-1][:1]
+    queryset = Product.objects.filter(is_active=True, trend=1).order_by('-id')[:1]
     serializer_class = ProductSerializer
 
 

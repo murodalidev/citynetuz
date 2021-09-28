@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 .idea
+db.sqlite3
 
 # Django stuff:
 *.log
