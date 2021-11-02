@@ -2,12 +2,24 @@ from rest_framework import serializers
 from ...models import Category, Product, ProductImage, Request
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    parent_category_name = serializers.CharField(source='parent_category.title', read_only=True)
+class SubCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'parent_category', 'parent_category_name', 'title')
+        fields = ('id', 'title')
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+
+    def get_children(self, obj):
+        qs = Category.objects.filter(parent_category=obj, is_active=True)
+        sz = SubCategorySerializer(qs, many=True)
+        return sz.data
+
+    class Meta:
+        model = Category
+        fields = ('id', 'title', 'children')
 
 
 class ProductImageSerializer(serializers.ModelSerializer):

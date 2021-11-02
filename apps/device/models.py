@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from ckeditor.fields import RichTextField
 
 from apps.index.models import TRENDS
 from citynet import settings
@@ -11,7 +12,10 @@ class Category(models.Model):
         verbose_name = 'Category'
         verbose_name_plural = '1. Categories'
 
-    parent_category = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Parent Category', null=True, blank=True)
+#    parent_category = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Parent Category', null=True, blank=True)
+    parent_category = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Parent Category', 
+                                        limit_choices_to={'is_active': True, 'parent_category__isnull': True},
+                                        related_name='children', null=True, blank=True, )
     title = models.CharField(max_length=50, verbose_name=_('Category title'))
     is_active = models.BooleanField(default=True, verbose_name=_('Is active'))
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date created'))
@@ -31,8 +35,8 @@ class Product(models.Model):
     title = models.CharField(max_length=255, verbose_name=_('product title'))
     price = models.CharField(max_length=20, verbose_name=_('Price'))
     old_price = models.CharField(max_length=20, verbose_name=_('Old price'), null=True, blank=True)
-    main_content = models.TextField(verbose_name=_('Main Content'))
-    secondary_content = models.TextField(verbose_name=_('Secondary Content'), null=True, blank=True)
+    main_content = RichTextField(verbose_name=_('Main Content'))
+    secondary_content = RichTextField(verbose_name=_('Secondary Content'), null=True, blank=True)
     is_popular = models.BooleanField(default=False, verbose_name=_('Is popular'))
     is_active = models.BooleanField(default=True, verbose_name=_('Is active'))
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date created'))

@@ -6,7 +6,8 @@ from .serializers import CategorySerializer, ProductSerializer, ContactSerialize
 
 
 class CategoryListView(generics.ListAPIView):
-    queryset = Category.objects.filter(is_active=True).order_by('title')
+#    queryset = Category.objects.filter(is_active=True).order_by('title')
+    queryset = Category.objects.filter(is_active=True, parent_category__isnull=True).order_by('title')
     serializer_class = CategorySerializer
 
 

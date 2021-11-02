@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'corsheaders',
+    'ckeditor',
 
     # apps
     'apps.index',
@@ -65,20 +66,22 @@ INSTALLED_APPS = [
 #     }
 # }
 
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
+
 LOCAL_BASE_URL = 'http://127.0.0.1:8000'
-PROD_BASE_URL = 'http://w4.citynet.uz:4440'
+PROD_BASE_URL = 'https://w4.citynet.uz:4441'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,11 +90,18 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://w3.citynet.uz",
-    "http://w3.citynet.uz:4440",
+#    "*"
+    "http://w2.citynet.uz",
+    "http://w2.citynet.uz:4440",
+    "http://citynet.uz",
+    "https://citynet.uz",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+#CORS_ORIGIN_WHITELIST = [
+#    "https://citynet.uz",
+#    "http://citynet.uz",
+#]
 CORS_ALLOW_METHODS = [
     "*"
 ]
@@ -100,6 +110,11 @@ CORS_ALLOW_HEADERS = [
     '*'
 ]
 CORS_ALLOW_CREDENTIALS = True
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+#SECURE_SSL_REDIRECT = True
+
 
 ROOT_URLCONF = 'citynet.urls'
 
@@ -193,6 +208,8 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from ckeditor.fields import RichTextField
 
 
 TRENDS = (
@@ -24,7 +25,7 @@ class News(models.Model):
     trend = models.IntegerField(choices=TRENDS, default=0, verbose_name=_('Trend'))
     image = models.FileField(upload_to='news', verbose_name=_('Image'))
     title = models.CharField(max_length=255, verbose_name=_('News title'))
-    content = models.TextField(verbose_name=_('Content'))
+    content = RichTextField(verbose_name=_('Content'))
     is_popular = models.BooleanField(default=False, verbose_name=_('Is popular'))
     is_active = models.BooleanField(default=True, verbose_name=_('Is active'))
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date created'))

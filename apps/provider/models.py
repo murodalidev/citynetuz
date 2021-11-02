@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from ckeditor.fields import RichTextField
 
 
 class Notification(models.Model):
@@ -10,7 +11,7 @@ class Notification(models.Model):
         verbose_name_plural = '1. Notifications'
 
     title = models.CharField(max_length=50, verbose_name=_('Notification title'))
-    content = models.TextField(verbose_name=_('Content'))
+    content = RichTextField(verbose_name=_('Content'))
     is_active = models.BooleanField(default=True, verbose_name=_('Is active'))
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date created'))
 
@@ -136,7 +137,7 @@ class Request(models.Model):
     city = models.ForeignKey(CityArea, on_delete=models.CASCADE, verbose_name=_('City'))
     district = models.ForeignKey(DistrictArea, on_delete=models.CASCADE, verbose_name=_('District'))
     street = models.ForeignKey(StreetArea, on_delete=models.CASCADE, verbose_name=_('Street'))
-    home = models.ForeignKey(HomeArea, on_delete=models.CASCADE, verbose_name=_('Home'))
+    home = models.ForeignKey(HomeArea, on_delete=models.CASCADE, verbose_name=_('Home'), null=True, blank=True)
     flat = models.IntegerField(verbose_name=_('Flat name'), null=True, blank=True)
     full_name = models.CharField(max_length=50, verbose_name=_('Full name'))
     phone = models.CharField(max_length=50, verbose_name=_('Phone number'))
